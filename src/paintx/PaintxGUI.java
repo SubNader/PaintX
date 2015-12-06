@@ -140,6 +140,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         Controls.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         eraseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eraser.png"))); // NOI18N
+        eraseButton.setEnabled(false);
         eraseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eraseButtonActionPerformed(evt);
@@ -154,6 +155,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         zoomOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomout.png"))); // NOI18N
+        zoomOutButton.setEnabled(false);
         zoomOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 zoomOutButtonActionPerformed(evt);
@@ -161,6 +163,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintx/triangle.png"))); // NOI18N
+        triangleButton.setEnabled(false);
         triangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 triangleButtonActionPerformed(evt);
@@ -168,6 +171,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         squareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/square.png"))); // NOI18N
+        squareButton.setEnabled(false);
         squareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 squareButtonActionPerformed(evt);
@@ -175,6 +179,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         selectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/select.png"))); // NOI18N
+        selectButton.setEnabled(false);
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectButtonActionPerformed(evt);
@@ -182,6 +187,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         circleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/circle.png"))); // NOI18N
+        circleButton.setEnabled(false);
         circleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 circleButtonActionPerformed(evt);
@@ -203,6 +209,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         elipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/elipse.png"))); // NOI18N
+        elipseButton.setEnabled(false);
         elipseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 elipseButtonActionPerformed(evt);
@@ -210,6 +217,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         rectangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rectangle.png"))); // NOI18N
+        rectangleButton.setEnabled(false);
         rectangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rectangleButtonActionPerformed(evt);
@@ -217,6 +225,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         lineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/line.png"))); // NOI18N
+        lineButton.setEnabled(false);
         lineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lineButtonActionPerformed(evt);
@@ -231,6 +240,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         zoomInButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomin.png"))); // NOI18N
+        zoomInButton.setEnabled(false);
         zoomInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 zoomInButtonActionPerformed(evt);
@@ -238,6 +248,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         textButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/text.png"))); // NOI18N
+        textButton.setEnabled(false);
         textButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textButtonActionPerformed(evt);
@@ -245,6 +256,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         resizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/resize.png"))); // NOI18N
+        resizeButton.setEnabled(false);
         resizeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resizeButtonActionPerformed(evt);
