@@ -6,23 +6,30 @@
 package paintx;
 
 import java.awt.Color;
-import java.awt.Image;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 /**
  *
  * @author Nader
  */
-public class PaintxGUI extends javax.swing.JFrame {
+public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener {
+    
+    public static String selectedTool;
+
+    /**
+     *
+     */
+    public static Color currentColor;
 
     /**
      * Creates new form PaintxGUI
      */
     public PaintxGUI() {
         initComponents();
-
+        selectedTool = "pencil";
+        colorSelectionFrame.setVisible(false);
+        drawArea.addMouseMotionListener(this);
     }
 
     /**
@@ -34,66 +41,169 @@ public class PaintxGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        jPanel1 = new javax.swing.JPanel();
-        pencilButton = new javax.swing.JButton();
-        brushButton = new javax.swing.JButton();
-        selectButton = new javax.swing.JButton();
+        colorToolbar = new javax.swing.JToolBar();
+        colorSelectionFrame = new javax.swing.JFrame();
+        colorChooser = new javax.swing.JColorChooser();
+        applyColor = new javax.swing.JButton();
+        Controls = new javax.swing.JPanel();
         eraseButton = new javax.swing.JButton();
-        moveButton = new javax.swing.JButton();
-        elipseButton = new javax.swing.JButton();
-        fillButton = new javax.swing.JButton();
-        triangleButton = new javax.swing.JButton();
-        rectangleButton = new javax.swing.JButton();
-        squareButton = new javax.swing.JButton();
-        circleButton = new javax.swing.JButton();
-        lineButton = new javax.swing.JButton();
+        brushButton = new javax.swing.JButton();
         zoomOutButton = new javax.swing.JButton();
+        triangleButton = new javax.swing.JButton();
+        squareButton = new javax.swing.JButton();
+        selectButton = new javax.swing.JButton();
+        circleButton = new javax.swing.JButton();
+        pencilButton = new javax.swing.JButton();
+        fillButton = new javax.swing.JButton();
+        elipseButton = new javax.swing.JButton();
+        rectangleButton = new javax.swing.JButton();
+        lineButton = new javax.swing.JButton();
+        moveButton = new javax.swing.JButton();
         zoomInButton = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        textButton = new javax.swing.JButton();
+        resizeButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        currentColorDisplay = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        selectColor = new javax.swing.JButton();
+        drawArea = new javax.swing.JPanel();
+        coordinates = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        jToolBar1.setRollover(true);
+        colorToolbar.setRollover(true);
+
+        colorSelectionFrame.setMinimumSize(new java.awt.Dimension(638, 415));
+        colorSelectionFrame.setPreferredSize(new java.awt.Dimension(638, 415));
+        colorSelectionFrame.setResizable(false);
+
+        applyColor.setText("Apply");
+        applyColor.setAutoscrolls(true);
+        applyColor.setFocusPainted(false);
+        applyColor.setFocusable(false);
+        applyColor.setInheritsPopupMenu(true);
+        applyColor.setRequestFocusEnabled(false);
+        applyColor.setRolloverEnabled(false);
+        applyColor.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        applyColor.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        applyColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyColorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout colorSelectionFrameLayout = new javax.swing.GroupLayout(colorSelectionFrame.getContentPane());
+        colorSelectionFrame.getContentPane().setLayout(colorSelectionFrameLayout);
+        colorSelectionFrameLayout.setHorizontalGroup(
+            colorSelectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(colorSelectionFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(colorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, colorSelectionFrameLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(applyColor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        colorSelectionFrameLayout.setVerticalGroup(
+            colorSelectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, colorSelectionFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(colorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(applyColor)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Paintx");
         setName("mainFrame"); // NOI18N
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 988, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 415, Short.MAX_VALUE)
-        );
-
-        pencilButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pencil.png"))); // NOI18N
-        pencilButton.setFocusPainted(false);
-        pencilButton.setFocusable(false);
-
-        brushButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brush.png"))); // NOI18N
-        brushButton.setFocusPainted(false);
-        brushButton.setFocusable(false);
-
-        selectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/select.png"))); // NOI18N
-        selectButton.setFocusPainted(false);
-        selectButton.setFocusable(false);
+        Controls.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         eraseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eraser.png"))); // NOI18N
         eraseButton.setFocusPainted(false);
         eraseButton.setFocusable(false);
+        eraseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eraseButtonActionPerformed(evt);
+            }
+        });
 
-        moveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/move.png"))); // NOI18N
-        moveButton.setFocusPainted(false);
-        moveButton.setFocusable(false);
+        brushButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brush.png"))); // NOI18N
+        brushButton.setFocusPainted(false);
+        brushButton.setFocusable(false);
+        brushButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brushButtonActionPerformed(evt);
+            }
+        });
+
+        zoomOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomout.png"))); // NOI18N
+        zoomOutButton.setFocusPainted(false);
+        zoomOutButton.setFocusable(false);
+        zoomOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomOutButtonActionPerformed(evt);
+            }
+        });
+
+        triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintx/triangle.png"))); // NOI18N
+        triangleButton.setFocusPainted(false);
+        triangleButton.setFocusable(false);
+        triangleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                triangleButtonActionPerformed(evt);
+            }
+        });
+
+        squareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/square.png"))); // NOI18N
+        squareButton.setFocusPainted(false);
+        squareButton.setFocusable(false);
+        squareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                squareButtonActionPerformed(evt);
+            }
+        });
+
+        selectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/select.png"))); // NOI18N
+        selectButton.setFocusPainted(false);
+        selectButton.setFocusable(false);
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectButtonActionPerformed(evt);
+            }
+        });
+
+        circleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/circle.png"))); // NOI18N
+        circleButton.setFocusPainted(false);
+        circleButton.setFocusable(false);
+        circleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                circleButtonActionPerformed(evt);
+            }
+        });
+
+        pencilButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pencil.png"))); // NOI18N
+        pencilButton.setFocusPainted(false);
+        pencilButton.setFocusable(false);
+        pencilButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pencilButtonActionPerformed(evt);
+            }
+        });
+
+        fillButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fill.png"))); // NOI18N
+        fillButton.setFocusPainted(false);
+        fillButton.setFocusable(false);
+        fillButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fillButtonActionPerformed(evt);
+            }
+        });
 
         elipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/elipse.png"))); // NOI18N
         elipseButton.setFocusPainted(false);
@@ -104,43 +214,202 @@ public class PaintxGUI extends javax.swing.JFrame {
             }
         });
 
-        fillButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fill.png"))); // NOI18N
-        fillButton.setFocusPainted(false);
-        fillButton.setFocusable(false);
-
-        triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintx/triangle.png"))); // NOI18N
-        triangleButton.setFocusPainted(false);
-        triangleButton.setFocusable(false);
-
         rectangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rectangle.png"))); // NOI18N
         rectangleButton.setFocusPainted(false);
         rectangleButton.setFocusable(false);
-
-        squareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/square.png"))); // NOI18N
-        squareButton.setFocusPainted(false);
-        squareButton.setFocusable(false);
-
-        circleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/circle.png"))); // NOI18N
-        circleButton.setFocusPainted(false);
-        circleButton.setFocusable(false);
+        rectangleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rectangleButtonActionPerformed(evt);
+            }
+        });
 
         lineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/line.png"))); // NOI18N
         lineButton.setFocusPainted(false);
         lineButton.setFocusable(false);
+        lineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lineButtonActionPerformed(evt);
+            }
+        });
 
-        zoomOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomout.png"))); // NOI18N
-        zoomOutButton.setFocusPainted(false);
-        zoomOutButton.setFocusable(false);
+        moveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/move.png"))); // NOI18N
+        moveButton.setFocusPainted(false);
+        moveButton.setFocusable(false);
+        moveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveButtonActionPerformed(evt);
+            }
+        });
 
         zoomInButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomin.png"))); // NOI18N
         zoomInButton.setFocusPainted(false);
         zoomInButton.setFocusable(false);
+        zoomInButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zoomInButtonActionPerformed(evt);
+            }
+        });
 
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/color.png"))); // NOI18N
-        jToggleButton1.setBorder(null);
-        jToggleButton1.setFocusPainted(false);
-        jToggleButton1.setFocusable(false);
-        jToggleButton1.setOpaque(true);
+        textButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/text.png"))); // NOI18N
+        textButton.setFocusPainted(false);
+        textButton.setFocusable(false);
+        textButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textButtonActionPerformed(evt);
+            }
+        });
+
+        resizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/resize.png"))); // NOI18N
+        resizeButton.setFocusPainted(false);
+        resizeButton.setFocusable(false);
+        resizeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resizeButtonActionPerformed(evt);
+            }
+        });
+
+        currentColorDisplay.setBackground(new java.awt.Color(0, 0, 0));
+        currentColorDisplay.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        currentColorDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                currentColorDisplayMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout currentColorDisplayLayout = new javax.swing.GroupLayout(currentColorDisplay);
+        currentColorDisplay.setLayout(currentColorDisplayLayout);
+        currentColorDisplayLayout.setHorizontalGroup(
+            currentColorDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        currentColorDisplayLayout.setVerticalGroup(
+            currentColorDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 38, Short.MAX_VALUE)
+        );
+
+        jLabel1.setText("Current color");
+
+        jLabel2.setText("Select color");
+
+        selectColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/color.png"))); // NOI18N
+        selectColor.setFocusable(false);
+        selectColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectColorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ControlsLayout = new javax.swing.GroupLayout(Controls);
+        Controls.setLayout(ControlsLayout);
+        ControlsLayout.setHorizontalGroup(
+            ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(ControlsLayout.createSequentialGroup()
+                        .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ControlsLayout.createSequentialGroup()
+                                .addComponent(pencilButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(brushButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ControlsLayout.createSequentialGroup()
+                                .addComponent(triangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fillButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ControlsLayout.createSequentialGroup()
+                                .addComponent(squareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rectangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ControlsLayout.createSequentialGroup()
+                                .addComponent(zoomInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(zoomOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ControlsLayout.createSequentialGroup()
+                                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(selectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(circleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(elipseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(eraseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(resizeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(currentColorDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(selectColor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        ControlsLayout.setVerticalGroup(
+            ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ControlsLayout.createSequentialGroup()
+                        .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(brushButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pencilButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eraseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(selectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resizeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(circleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(elipseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rectangleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(squareButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fillButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(triangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(zoomOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(zoomInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(currentColorDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectColor)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        drawArea.setBackground(new java.awt.Color(255, 255, 255));
+        drawArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        javax.swing.GroupLayout drawAreaLayout = new javax.swing.GroupLayout(drawArea);
+        drawArea.setLayout(drawAreaLayout);
+        drawAreaLayout.setHorizontalGroup(
+            drawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 928, Short.MAX_VALUE)
+        );
+        drawAreaLayout.setVerticalGroup(
+            drawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        coordinates.setText("X=0,Y=0");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -155,77 +424,26 @@ public class PaintxGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
+                .addComponent(Controls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pencilButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(brushButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(coordinates)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(triangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fillButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(squareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rectangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(zoomInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(zoomOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(selectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(circleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(elipseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(eraseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(59, 59, 59)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                        .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(brushButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pencilButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(eraseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(selectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(circleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(elipseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rectangleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(squareButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fillButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(triangleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(zoomOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(zoomInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Controls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addComponent(coordinates))
         );
 
         pack();
@@ -234,7 +452,110 @@ public class PaintxGUI extends javax.swing.JFrame {
 
     private void elipseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elipseButtonActionPerformed
         // TODO add your handling code here:
+        selectedTool = "elipse";
     }//GEN-LAST:event_elipseButtonActionPerformed
+
+    private void pencilButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pencilButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "pencil";
+
+    }//GEN-LAST:event_pencilButtonActionPerformed
+
+    private void brushButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brushButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "brush";
+
+    }//GEN-LAST:event_brushButtonActionPerformed
+
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "select";
+    }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void eraseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraseButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "erase";
+    }//GEN-LAST:event_eraseButtonActionPerformed
+
+    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "move";
+    }//GEN-LAST:event_moveButtonActionPerformed
+
+    private void lineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "line";
+
+    }//GEN-LAST:event_lineButtonActionPerformed
+
+    private void circleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circleButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "circle";
+    }//GEN-LAST:event_circleButtonActionPerformed
+
+    private void squareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_squareButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "square";
+
+    }//GEN-LAST:event_squareButtonActionPerformed
+
+    private void rectangleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rectangleButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "rectangle";
+    }//GEN-LAST:event_rectangleButtonActionPerformed
+
+    private void triangleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_triangleButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "triangle";
+
+    }//GEN-LAST:event_triangleButtonActionPerformed
+
+    private void fillButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "fill";
+    }//GEN-LAST:event_fillButtonActionPerformed
+
+    private void zoomInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomInButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "zoomin";
+
+    }//GEN-LAST:event_zoomInButtonActionPerformed
+
+    private void zoomOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomOutButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "zoomout";
+    }//GEN-LAST:event_zoomOutButtonActionPerformed
+
+    private void textButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "text";
+
+    }//GEN-LAST:event_textButtonActionPerformed
+
+    private void resizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resizeButtonActionPerformed
+        // TODO add your handling code here:
+        selectedTool = "resize";
+    }//GEN-LAST:event_resizeButtonActionPerformed
+
+    private void currentColorDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentColorDisplayMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_currentColorDisplayMouseClicked
+
+    private void selectColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectColorActionPerformed
+        // TODO add your handling code here:
+        colorSelectionFrame.setLocationRelativeTo(null);
+        colorSelectionFrame.setVisible(true);
+        
+
+    }//GEN-LAST:event_selectColorActionPerformed
+
+    private void applyColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyColorActionPerformed
+        // TODO add your handling code here:
+
+        currentColor = colorChooser.getColor();
+        currentColorDisplay.setBackground(currentColor);
+        colorSelectionFrame.setVisible(false);
+    }//GEN-LAST:event_applyColorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,29 +589,52 @@ public class PaintxGUI extends javax.swing.JFrame {
             public void run() {
                 new PaintxGUI().setVisible(true);
             }
-        });
+        }
+        );
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Controls;
+    private javax.swing.JButton applyColor;
     private javax.swing.JButton brushButton;
     private javax.swing.JButton circleButton;
+    private javax.swing.JColorChooser colorChooser;
+    private javax.swing.JFrame colorSelectionFrame;
+    private javax.swing.JToolBar colorToolbar;
+    private javax.swing.JLabel coordinates;
+    private javax.swing.JPanel currentColorDisplay;
+    private javax.swing.JPanel drawArea;
     private javax.swing.JButton elipseButton;
     private javax.swing.JButton eraseButton;
     private javax.swing.JButton fillButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton lineButton;
     private javax.swing.JButton moveButton;
     private javax.swing.JButton pencilButton;
     private javax.swing.JButton rectangleButton;
+    private javax.swing.JButton resizeButton;
     private javax.swing.JButton selectButton;
+    private javax.swing.JButton selectColor;
     private javax.swing.JButton squareButton;
+    private javax.swing.JButton textButton;
     private javax.swing.JButton triangleButton;
     private javax.swing.JButton zoomInButton;
     private javax.swing.JButton zoomOutButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        coordinates.setText("X="+e.getX()+",Y="+e.getY());
+
+    }
 }
