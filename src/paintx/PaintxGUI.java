@@ -5,30 +5,38 @@
  */
 package paintx;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author Nader
  */
-public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener {
-    
+public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener, MouseListener {
+
     public static String selectedTool;
-
-    /**
-     *
-     */
     public static Color currentColor;
+    public static Color backgroundColor;
+    ArrayList<Point> shape;
+    int xDragged;
+    int yDragged;
 
-    /**
-     * Creates new form PaintxGUI
-     */
     public PaintxGUI() {
         initComponents();
+        backgroundColor=drawArea.getBackground();
         selectedTool = "pencil";
+        currentColor=currentColorDisplay.getBackground();
         colorSelectionFrame.setVisible(false);
+        drawArea.addMouseListener(this);
         drawArea.addMouseMotionListener(this);
     }
 
@@ -67,16 +75,23 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         selectColor = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        sizeLabel = new javax.swing.JLabel();
+        toolSize = new javax.swing.JSlider();
+        jPanel1 = new javax.swing.JPanel();
         drawArea = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         coordinates = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        clearAllButton = new javax.swing.JMenuItem();
 
         colorToolbar.setRollover(true);
 
         colorSelectionFrame.setMinimumSize(new java.awt.Dimension(638, 415));
-        colorSelectionFrame.setPreferredSize(new java.awt.Dimension(638, 415));
         colorSelectionFrame.setResizable(false);
 
         applyColor.setText("Apply");
@@ -125,8 +140,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         Controls.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         eraseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eraser.png"))); // NOI18N
-        eraseButton.setFocusPainted(false);
-        eraseButton.setFocusable(false);
         eraseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eraseButtonActionPerformed(evt);
@@ -134,8 +147,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         brushButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/brush.png"))); // NOI18N
-        brushButton.setFocusPainted(false);
-        brushButton.setFocusable(false);
         brushButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 brushButtonActionPerformed(evt);
@@ -143,8 +154,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         zoomOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomout.png"))); // NOI18N
-        zoomOutButton.setFocusPainted(false);
-        zoomOutButton.setFocusable(false);
         zoomOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 zoomOutButtonActionPerformed(evt);
@@ -152,8 +161,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintx/triangle.png"))); // NOI18N
-        triangleButton.setFocusPainted(false);
-        triangleButton.setFocusable(false);
         triangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 triangleButtonActionPerformed(evt);
@@ -161,8 +168,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         squareButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/square.png"))); // NOI18N
-        squareButton.setFocusPainted(false);
-        squareButton.setFocusable(false);
         squareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 squareButtonActionPerformed(evt);
@@ -170,8 +175,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         selectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/select.png"))); // NOI18N
-        selectButton.setFocusPainted(false);
-        selectButton.setFocusable(false);
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectButtonActionPerformed(evt);
@@ -179,8 +182,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         circleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/circle.png"))); // NOI18N
-        circleButton.setFocusPainted(false);
-        circleButton.setFocusable(false);
         circleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 circleButtonActionPerformed(evt);
@@ -188,8 +189,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         pencilButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pencil.png"))); // NOI18N
-        pencilButton.setFocusPainted(false);
-        pencilButton.setFocusable(false);
         pencilButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pencilButtonActionPerformed(evt);
@@ -197,8 +196,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         fillButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fill.png"))); // NOI18N
-        fillButton.setFocusPainted(false);
-        fillButton.setFocusable(false);
         fillButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fillButtonActionPerformed(evt);
@@ -206,8 +203,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         elipseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/elipse.png"))); // NOI18N
-        elipseButton.setFocusPainted(false);
-        elipseButton.setFocusable(false);
         elipseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 elipseButtonActionPerformed(evt);
@@ -215,8 +210,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         rectangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rectangle.png"))); // NOI18N
-        rectangleButton.setFocusPainted(false);
-        rectangleButton.setFocusable(false);
         rectangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rectangleButtonActionPerformed(evt);
@@ -224,8 +217,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         lineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/line.png"))); // NOI18N
-        lineButton.setFocusPainted(false);
-        lineButton.setFocusable(false);
         lineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lineButtonActionPerformed(evt);
@@ -233,8 +224,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         moveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/move.png"))); // NOI18N
-        moveButton.setFocusPainted(false);
-        moveButton.setFocusable(false);
         moveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 moveButtonActionPerformed(evt);
@@ -242,8 +231,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         zoomInButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/zoomin.png"))); // NOI18N
-        zoomInButton.setFocusPainted(false);
-        zoomInButton.setFocusable(false);
         zoomInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 zoomInButtonActionPerformed(evt);
@@ -251,8 +238,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         textButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/text.png"))); // NOI18N
-        textButton.setFocusPainted(false);
-        textButton.setFocusable(false);
         textButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textButtonActionPerformed(evt);
@@ -260,8 +245,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         resizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/resize.png"))); // NOI18N
-        resizeButton.setFocusPainted(false);
-        resizeButton.setFocusable(false);
         resizeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resizeButtonActionPerformed(evt);
@@ -299,6 +282,19 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
             }
         });
 
+        jLabel3.setText("Size");
+
+        sizeLabel.setText("10");
+
+        toolSize.setMinimum(1);
+        toolSize.setValue(15);
+        toolSize.setFocusable(false);
+        toolSize.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                toolSizeStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout ControlsLayout = new javax.swing.GroupLayout(Controls);
         Controls.setLayout(ControlsLayout);
         ControlsLayout.setHorizontalGroup(
@@ -307,6 +303,10 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
                 .addContainerGap()
                 .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
+                    .addComponent(currentColorDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(selectColor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ControlsLayout.createSequentialGroup()
                         .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ControlsLayout.createSequentialGroup()
@@ -340,10 +340,12 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(currentColorDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlsLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(selectColor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(toolSize, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jSeparator2)
+                    .addGroup(ControlsLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sizeLabel)))
                 .addContainerGap())
         );
         ControlsLayout.setVerticalGroup(
@@ -382,39 +384,110 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
                 .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(zoomOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(zoomInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
+                .addGroup(ControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(sizeLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toolSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentColorDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selectColor)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
         drawArea.setBackground(new java.awt.Color(255, 255, 255));
-        drawArea.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        drawArea.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        drawArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                drawAreaMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                drawAreaMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                drawAreaMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout drawAreaLayout = new javax.swing.GroupLayout(drawArea);
         drawArea.setLayout(drawAreaLayout);
         drawAreaLayout.setHorizontalGroup(
             drawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 928, Short.MAX_VALUE)
+            .addGap(0, 930, Short.MAX_VALUE)
         );
         drawAreaLayout.setVerticalGroup(
             drawAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        coordinates.setText("X=0,Y=0");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Cursor position:");
+
+        coordinates.setText("x=0 | y=0");
 
         jMenu1.setText("File");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
+        jMenuItem1.setText("Exit");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
+
+        clearAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clearall.png"))); // NOI18N
+        clearAllButton.setText("Clear all");
+        clearAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAllButtonActionPerformed(evt);
+            }
+        });
+        clearAllButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                clearAllButtonKeyPressed(evt);
+            }
+        });
+        jMenu2.add(clearAllButton);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -429,21 +502,25 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(10, 10, 10)
                         .addComponent(coordinates)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(12, 12, 12))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(drawArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Controls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(2, 2, 2)
-                .addComponent(coordinates))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Controls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(coordinates)
+                    .addComponent(jLabel4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -545,8 +622,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         // TODO add your handling code here:
         colorSelectionFrame.setLocationRelativeTo(null);
         colorSelectionFrame.setVisible(true);
-        
-
     }//GEN-LAST:event_selectColorActionPerformed
 
     private void applyColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyColorActionPerformed
@@ -556,6 +631,46 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         currentColorDisplay.setBackground(currentColor);
         colorSelectionFrame.setVisible(false);
     }//GEN-LAST:event_applyColorActionPerformed
+
+    private void toolSizeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_toolSizeStateChanged
+        // TODO add your handling code here:
+        sizeLabel.setText(Integer.toString(toolSize.getValue()));
+    }//GEN-LAST:event_toolSizeStateChanged
+
+    private void drawAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawAreaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_drawAreaMouseClicked
+
+    private void drawAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawAreaMouseReleased
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_drawAreaMouseReleased
+
+    private void drawAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawAreaMousePressed
+        // TODO add your handling code here:
+         if(selectedTool.equalsIgnoreCase("fill")){
+            drawArea.setBackground(currentColor);
+        }
+    }//GEN-LAST:event_drawAreaMousePressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void clearAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllButtonActionPerformed
+        // TODO add your handling code here:
+     drawArea.setBackground(Color.WHITE);
+     repaint();
+    }//GEN-LAST:event_clearAllButtonActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void clearAllButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clearAllButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearAllButtonKeyPressed
 
     /**
      * @param args the command line arguments
@@ -591,7 +706,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
             }
         }
         );
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -599,6 +714,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
     private javax.swing.JButton applyColor;
     private javax.swing.JButton brushButton;
     private javax.swing.JButton circleButton;
+    private javax.swing.JMenuItem clearAllButton;
     private javax.swing.JColorChooser colorChooser;
     private javax.swing.JFrame colorSelectionFrame;
     private javax.swing.JToolBar colorToolbar;
@@ -610,10 +726,15 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
     private javax.swing.JButton fillButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton lineButton;
     private javax.swing.JButton moveButton;
     private javax.swing.JButton pencilButton;
@@ -621,8 +742,10 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
     private javax.swing.JButton resizeButton;
     private javax.swing.JButton selectButton;
     private javax.swing.JButton selectColor;
+    private javax.swing.JLabel sizeLabel;
     private javax.swing.JButton squareButton;
     private javax.swing.JButton textButton;
+    private javax.swing.JSlider toolSize;
     private javax.swing.JButton triangleButton;
     private javax.swing.JButton zoomInButton;
     private javax.swing.JButton zoomOutButton;
@@ -630,11 +753,71 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        switch (selectedTool) {
+            case "pencil":
+                drawPencil(e);
+                break;
+            case "brush":
+                drawBrush(e);
+                break;
+            case "erase":
+                eraser(e);
+                break;
+        }
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        coordinates.setText("X="+e.getX()+",Y="+e.getY());
 
+    public void mouseMoved(MouseEvent e) {
+        coordinates.setText("x=" + e.getX() + " | y=" + e.getY());
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        xDragged = e.getX();
+        yDragged = e.getY();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void drawPencil(MouseEvent e) {
+        Graphics2D g = (Graphics2D) drawArea.getGraphics();
+        g.setColor(currentColor);
+        g.setStroke(new BasicStroke((int)(toolSize.getValue()/10)));
+        g.draw(new Line2D.Float(xDragged, yDragged, e.getX(), e.getY()));
+        xDragged = e.getX();
+        yDragged = e.getY();
+    }
+    public void drawBrush(MouseEvent e) {
+        Graphics2D g = (Graphics2D) drawArea.getGraphics();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(currentColor);
+        g.setStroke(new BasicStroke((int)((toolSize.getValue()+5)/10)));
+        g.draw(new Line2D.Double(xDragged, yDragged, e.getX(), e.getY()));
+        xDragged = e.getX();
+        yDragged = e.getY();
+    }
+      public void eraser(MouseEvent e) {
+        Graphics2D g = (Graphics2D) drawArea.getGraphics();
+        g.setBackground(backgroundColor);
+        g.setColor(currentColor);
+        g.setStroke(new BasicStroke((int)(toolSize.getValue()/10)));
+        g.clearRect(e.getX(),e.getY(),toolSize.getValue(),toolSize.getValue()/2);
+        xDragged = e.getX();
+        yDragged = e.getY();
     }
 }
