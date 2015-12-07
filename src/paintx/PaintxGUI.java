@@ -10,12 +10,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -32,9 +32,10 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
 
     public PaintxGUI() {
         initComponents();
-        backgroundColor=drawArea.getBackground();
+        setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getResource("/images/icon.png")));
+        backgroundColor = drawArea.getBackground();
         selectedTool = "pencil";
-        currentColor=currentColorDisplay.getBackground();
+        currentColor = currentColorDisplay.getBackground();
         colorSelectionFrame.setVisible(false);
         drawArea.addMouseListener(this);
         drawArea.addMouseMotionListener(this);
@@ -140,7 +141,6 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         Controls.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         eraseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eraser.png"))); // NOI18N
-        eraseButton.setEnabled(false);
         eraseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eraseButtonActionPerformed(evt);
@@ -162,7 +162,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
             }
         });
 
-        triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintx/triangle.png"))); // NOI18N
+        triangleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/triangle.png"))); // NOI18N
         triangleButton.setEnabled(false);
         triangleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,6 +233,7 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
         });
 
         moveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/move.png"))); // NOI18N
+        moveButton.setEnabled(false);
         moveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 moveButtonActionPerformed(evt);
@@ -655,12 +656,12 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
 
     private void drawAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawAreaMouseReleased
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_drawAreaMouseReleased
 
     private void drawAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drawAreaMousePressed
         // TODO add your handling code here:
-         if(selectedTool.equalsIgnoreCase("fill")){
+        if (selectedTool.equalsIgnoreCase("fill")) {
             drawArea.setBackground(currentColor);
         }
     }//GEN-LAST:event_drawAreaMousePressed
@@ -672,8 +673,8 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
 
     private void clearAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllButtonActionPerformed
         // TODO add your handling code here:
-     drawArea.setBackground(Color.WHITE);
-     repaint();
+        drawArea.setBackground(Color.WHITE);
+        repaint();
     }//GEN-LAST:event_clearAllButtonActionPerformed
 
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
@@ -809,26 +810,28 @@ public class PaintxGUI extends javax.swing.JFrame implements MouseMotionListener
     public void drawPencil(MouseEvent e) {
         Graphics2D g = (Graphics2D) drawArea.getGraphics();
         g.setColor(currentColor);
-        g.setStroke(new BasicStroke((int)(toolSize.getValue()/10)));
+        g.setStroke(new BasicStroke((int) (toolSize.getValue() / 10)));
         g.draw(new Line2D.Float(xDragged, yDragged, e.getX(), e.getY()));
         xDragged = e.getX();
         yDragged = e.getY();
     }
+
     public void drawBrush(MouseEvent e) {
         Graphics2D g = (Graphics2D) drawArea.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(currentColor);
-        g.setStroke(new BasicStroke((int)((toolSize.getValue()+5)/10)));
+        g.setStroke(new BasicStroke((int) ((toolSize.getValue() + 5) / 10)));
         g.draw(new Line2D.Double(xDragged, yDragged, e.getX(), e.getY()));
         xDragged = e.getX();
         yDragged = e.getY();
     }
-      public void eraser(MouseEvent e) {
+
+    public void eraser(MouseEvent e) {
         Graphics2D g = (Graphics2D) drawArea.getGraphics();
         g.setBackground(backgroundColor);
         g.setColor(currentColor);
-        g.setStroke(new BasicStroke((int)(toolSize.getValue()/10)));
-        g.clearRect(e.getX(),e.getY(),toolSize.getValue(),toolSize.getValue()/2);
+        g.setStroke(new BasicStroke((int) (toolSize.getValue() / 10)));
+        g.clearRect(e.getX(), e.getY(), toolSize.getValue(), toolSize.getValue() / 2);
         xDragged = e.getX();
         yDragged = e.getY();
     }
