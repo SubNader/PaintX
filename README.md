@@ -1,3 +1,2 @@
 # PaintX
-Java paint-like application
-
+A paint application written in Java.
